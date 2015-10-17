@@ -59,7 +59,26 @@ median(activity_date$steps, na.rm = TRUE)
 
 ## What is the average daily activity pattern?
 
+Calculating the average daily activity by 5-minute interval.
 
+```{r}
+activity_interval <- aggregate(steps ~ interval, activity, mean)
+str(activity_interval)
+```
+
+Plotting steps versus the 5-minute interval.
+
+```{r plot, fig.height=5.5}
+plot(activity_interval$interval, activity_interval$steps,
+     xlab= 'Interval', ylab= 'Steps', type = "l",
+     main = "Activity Pattern", col = "blue")
+```
+
+Calculating the 5-minute interval that contains the maximum number of steps.
+
+```{r}
+activity_interval$interval[which.max(activity_interval$steps)]
+```
 
 ## Imputing missing values
 
