@@ -1,0 +1,160 @@
+---
+title: "Reproducible Research Project 1"
+author: _Teo Moreno_
+date: _16 Oct 2015_
+output: html_document
+---
+
+
+
+### Loading and preprocessing the data
+
+Downloading the data.
+
+```{r}
+fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+download.file(fileUrl, destfile = "./repdata%2Fdata%2Factivity.zip", method = "curl")
+```
+
+Unzipping the data.
+
+```{r}
+unzip("repdata%2Fdata%2Factivity.zip")
+```
+
+Loading the dataset.
+
+```{r}
+activity <- read.csv("activity.csv")
+```
+
+Saving the dataset as data frame.
+
+```{r}
+activity <- data.frame(activity)
+str(activity)
+```
+
+### Total number of steps taken per day
+
+Calculating the number of steps taken per day.
+
+```{r}
+activity_date <-aggregate(steps ~ date, activity, sum)
+str(activity_date)
+```
+
+Histogram of the total number of steps taken each day.
+
+```{r histogram, fig.height=5.5}
+hist(activity_date$steps, xlab = "Steps per Day",
+     main = "Total Number of Steps", col = "blue")
+```
+
+Calculating the mean and median of the total number of steps taken per day.
+
+```{r}
+mean(activity_date$steps, na.rm = TRUE)
+median(activity_date$steps, na.rm = TRUE)
+```
+
+### Average daily activity pattern
+
+Calculating the average daily activity by 5-minute interval.
+
+```{r}
+activity_interval <- aggregate(steps ~ interval, activity, mean)
+str(activity_interval)
+```
+
+Plotting steps versus the 5-minute interval.
+
+```{r plot, fig.height=5.5}
+plot(activity_interval$interval, activity_interval$steps,
+     xlab= 'Interval', ylab= 'Steps', type = "l",
+     main = "Activity Pattern", col = "blue")
+```
+
+Calculating the 5-minute interval that contains the maximum number of steps.
+
+```{r}
+activity_interval$interval[which.max(activity_interval$steps)]
+```
+
+### Missing Values Inputation
+
+Calculating and reporting the total number of missing values in the dataset.
+
+```{r}
+sum(!complete.cases(activity))
+```
+
+Filling all the missing values in the dataset with the mean across intervals.
+
+```{r}
+activity_na <- activity[which(!complete.cases(activity)), ]
+activity_na$steps <- mean(activity_interval$steps, na.rm = TRUE)
+str(activity_na)
+```
+
+Creating a new dataset combining complete data an filled missing data.
+
+```{r}
+activity_comp <- activity[which(complete.cases(activity)), ]
+str(activity_comp)
+activity_fill <- rbind(activity_comp, activity_na)
+index <- order(activity_fill$date)
+activity_fill <- activity_fill[index, ]
+str(activity_fill)
+```
+
+New calculatiion of the number of steps taken per day.
+
+```{r}
+activity_fill_date <-aggregate(steps ~ date, activity_fill, sum)
+str(activity_fill_date)
+```
+
+New Histogram of the total number of steps taken each day.
+
+```{r histogram2, fig.height=5.5}
+hist(activity_fill_date$steps, xlab = "Steps per Day",
+     main = "Total Number of Steps", col = "blue")
+```
+
+New Mean and median of the total number of steps taken per day.
+
+```{r}
+mean(activity_fill_date$steps)
+median(activity_fill_date$steps)
+```
+
+### Differences in activity patterns between weekdays and weekends
+
+Adding a weekday column to the activity set.
+
+```{r}
+activity_fill$weekday <- weekdays(as.Date(activity_fill$date))
+```
+
+Adding a daytype column to the activity set.
+
+```{r}
+activity_fill$daytype <- ifelse(activity_fill$weekday == "Saturday" | 
+                                       activity_fill$weekday == "Sunday", "Weekend", "Weekday") 
+```
+
+Calculating the average activity by day type (weekday or weekend).
+
+```{r}
+activity_fill_daytype <- aggregate(steps~interval+daytype, activity_fill, mean)
+str(activity_fill_daytype)
+```
+
+Making a time series plot.
+
+```{r plot2, fig.height=7.5}
+library(lattice)
+xyplot(steps~interval|daytype, activity_fill_daytype, layout = c(1,2),
+       type = "l", main = "Activity Pattern")
+```
