@@ -82,6 +82,49 @@ activity_interval$interval[which.max(activity_interval$steps)]
 
 ## Imputing missing values
 
+Calculating and reporting the total number of missing values in the dataset.
 
+```{r}
+sum(!complete.cases(activity))
+```
+
+Filling all the missing values in the dataset with the mean across intervals.
+
+```{r}
+activity_na <- activity[which(!complete.cases(activity)), ]
+activity_na$steps <- mean(activity_interval$steps, na.rm = TRUE)
+str(activity_na)
+```
+
+Creating a new dataset combining complete data an filled missing data.
+
+```{r}
+activity_comp <- activity[which(complete.cases(activity)), ]
+str(activity_comp)
+activity_fill <- rbind(activity_comp, activity_na)
+index <- order(activity_fill$date)
+activity_fill <- activity_fill[index, ]
+str(activity_fill)
+```
+
+New calculatiion of the number of steps taken per day.
+
+```{r}
+activity_fill_date <-aggregate(steps ~ date, activity_fill, sum)
+str(activity_fill_date)
+```
+
+New Histogram of the total number of steps taken each day.
+
+```{r histogram2, fig.height=5.5}
+hist(activity_fill_date$steps, xlab = "Steps per Day",
+     main = "Total Number of Steps", col = "blue")
+```
+
+New Mean and median of the total number of steps taken per day.
+
+```{r}
+mean(activity_fill_date$steps)
+median(activity_fill_date$steps)
 
 ## Are there differences in activity patterns between weekdays and weekends?
