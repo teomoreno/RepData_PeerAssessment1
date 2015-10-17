@@ -76,8 +76,8 @@ str(activity)</code></pre>
 ##  $ date    : Factor w/ 61 levels &quot;2012-10-01&quot;,&quot;2012-10-02&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...</code></pre>
 </div>
-<div id="total-number-of-steps-taken-per-day" class="section level3">
-<h3>Total number of steps taken per day</h3>
+<div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level3">
+<h3>What is mean total number of steps taken per day?</h3>
 <p>Calculating the number of steps taken per day.</p>
 <pre class="r"><code>activity_date &lt;-aggregate(steps ~ date, activity, sum)
 str(activity_date)</code></pre>
@@ -94,8 +94,8 @@ str(activity_date)</code></pre>
 <pre class="r"><code>median(activity_date$steps, na.rm = TRUE)</code></pre>
 <pre><code>## [1] 10765</code></pre>
 </div>
-<div id="average-daily-activity-pattern" class="section level3">
-<h3>Average daily activity pattern</h3>
+<div id="what-is-the-average-daily-activity-pattern" class="section level3">
+<h3>What is the average daily activity pattern?</h3>
 <p>Calculating the average daily activity by 5-minute interval.</p>
 <pre class="r"><code>activity_interval &lt;- aggregate(steps ~ interval, activity, mean)
 str(activity_interval)</code></pre>
@@ -111,8 +111,8 @@ str(activity_interval)</code></pre>
 <pre class="r"><code>activity_interval$interval[which.max(activity_interval$steps)]</code></pre>
 <pre><code>## [1] 835</code></pre>
 </div>
-<div id="missing-values-inputation" class="section level3">
-<h3>Missing Values Inputation</h3>
+<div id="imputing-missing-values" class="section level3">
+<h3>Imputing missing values</h3>
 <p>Calculating and reporting the total number of missing values in the dataset.</p>
 <pre class="r"><code>sum(!complete.cases(activity))</code></pre>
 <pre><code>## [1] 2304</code></pre>
@@ -155,8 +155,8 @@ str(activity_fill_date)</code></pre>
 <pre class="r"><code>median(activity_fill_date$steps)</code></pre>
 <pre><code>## [1] 10766.19</code></pre>
 </div>
-<div id="differences-in-activity-patterns-between-weekdays-and-weekends" class="section level3">
-<h3>Differences in activity patterns between weekdays and weekends</h3>
+<div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level3">
+<h3>Are there differences in activity patterns between weekdays and weekends?</h3>
 <p>Adding a weekday column to the activity set.</p>
 <pre class="r"><code>activity_fill$weekday &lt;- weekdays(as.Date(activity_fill$date))</code></pre>
 <p>Adding a daytype column to the activity set.</p>

@@ -35,7 +35,7 @@ activity <- data.frame(activity)
 str(activity)
 ```
 
-### Total number of steps taken per day
+### What is mean total number of steps taken per day?
 
 Calculating the number of steps taken per day.
 
@@ -58,7 +58,7 @@ mean(activity_date$steps, na.rm = TRUE)
 median(activity_date$steps, na.rm = TRUE)
 ```
 
-### Average daily activity pattern
+### What is the average daily activity pattern?
 
 Calculating the average daily activity by 5-minute interval.
 
@@ -81,7 +81,7 @@ Calculating the 5-minute interval that contains the maximum number of steps.
 activity_interval$interval[which.max(activity_interval$steps)]
 ```
 
-### Missing Values Inputation
+### Imputing missing values
 
 Calculating and reporting the total number of missing values in the dataset.
 
@@ -129,7 +129,7 @@ mean(activity_fill_date$steps)
 median(activity_fill_date$steps)
 ```
 
-### Differences in activity patterns between weekdays and weekends
+### Are there differences in activity patterns between weekdays and weekends?
 
 Adding a weekday column to the activity set.
 
