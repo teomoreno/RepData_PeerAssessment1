@@ -1,26 +1,12 @@
 ---
 title: "Reproducible Research Project 1"
-author: _Teo Moreno_
-date: _16 Oct 2015_
+author: "_Teo Moreno_"
+date: "_16 Oct 2015_"
 output: html_document
 ---
 
 
-
 ### Loading and preprocessing the data
-
-Downloading the data.
-
-```{r}
-fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
-download.file(fileUrl, destfile = "./repdata%2Fdata%2Factivity.zip", method = "curl")
-```
-
-Unzipping the data.
-
-```{r}
-unzip("repdata%2Fdata%2Factivity.zip")
-```
 
 Loading the dataset.
 
@@ -35,18 +21,18 @@ activity <- data.frame(activity)
 str(activity)
 ```
 
-### What is mean total number of steps taken per day?
+### What is the total number of steps taken per day?
 
 Calculating the number of steps taken per day.
 
 ```{r}
-activity_date <-aggregate(steps ~ date, activity, sum)
+activity_date <- aggregate(steps ~ date, activity, sum)
 str(activity_date)
 ```
 
 Histogram of the total number of steps taken each day.
 
-```{r histogram, fig.height=5.5}
+```{r histogram, fig.height = 5.5}
 hist(activity_date$steps, xlab = "Steps per Day",
      main = "Total Number of Steps", col = "blue")
 ```
@@ -119,10 +105,10 @@ New Histogram of the total number of steps taken each day.
 
 ```{r histogram2, fig.height=5.5}
 hist(activity_fill_date$steps, xlab = "Steps per Day",
-     main = "Total Number of Steps", col = "blue")
+     main = "New Total Number of Steps", col = "blue")
 ```
 
-New Mean and median of the total number of steps taken per day.
+New mean and median of the total number of steps taken per day.
 
 ```{r}
 mean(activity_fill_date$steps)
