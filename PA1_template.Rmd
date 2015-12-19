@@ -144,3 +144,4 @@ library(lattice)
 xyplot(steps~interval|daytype, activity_fill_daytype, layout = c(1,2),
        type = "l", main = "Activity Pattern")
 ```
+
