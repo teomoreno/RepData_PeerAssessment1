@@ -1,7 +1,7 @@
 ---
 title: "Reproducible Research Project 1"
 author: "_Teo Moreno_"
-date: "_16 Oct 2015_"
+date: "_19 Dec 2015_"
 output: html_document
 ---
 
