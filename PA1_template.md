@@ -15,32 +15,19 @@ Loading the dataset.
 activity <- read.csv("activity.csv")
 ```
 
-```
-## Warning in file(file, "rt"): cannot open file 'activity.csv': No such file
-## or directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
 Saving the dataset as data frame.
 
 
 ```r
 activity <- data.frame(activity)
-```
-
-```
-## Error in data.frame(activity): object 'activity' not found
-```
-
-```r
 str(activity)
 ```
 
 ```
-## Error in str(activity): object 'activity' not found
+## 'data.frame':	17568 obs. of  3 variables:
+##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
 ### What is the total number of steps taken per day?
@@ -50,18 +37,13 @@ Calculating the number of steps taken per day.
 
 ```r
 activity_date <- aggregate(steps ~ date, activity, sum)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity' not found
-```
-
-```r
 str(activity_date)
 ```
 
 ```
-## Error in str(activity_date): object 'activity_date' not found
+## 'data.frame':	53 obs. of  2 variables:
+##  $ date : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 2 3 4 5 6 7 9 10 11 12 ...
+##  $ steps: int  126 11352 12116 13294 15420 11015 12811 9900 10304 17382 ...
 ```
 
 Histogram of the total number of steps taken each day.
@@ -72,9 +54,7 @@ hist(activity_date$steps, xlab = "Steps per Day",
      main = "Total Number of Steps", col = "blue")
 ```
 
-```
-## Error in hist(activity_date$steps, xlab = "Steps per Day", main = "Total Number of Steps", : object 'activity_date' not found
-```
+![plot of chunk histogram](figure/histogram-1.png) 
 
 Calculating the mean and median of the total number of steps taken per day.
 
@@ -84,7 +64,7 @@ mean(activity_date$steps, na.rm = TRUE)
 ```
 
 ```
-## Error in mean(activity_date$steps, na.rm = TRUE): object 'activity_date' not found
+## [1] 10766.19
 ```
 
 ```r
@@ -92,7 +72,7 @@ median(activity_date$steps, na.rm = TRUE)
 ```
 
 ```
-## Error in median(activity_date$steps, na.rm = TRUE): object 'activity_date' not found
+## [1] 10765
 ```
 
 ### What is the average daily activity pattern?
@@ -102,18 +82,13 @@ Calculating the average daily activity by 5-minute interval.
 
 ```r
 activity_interval <- aggregate(steps ~ interval, activity, mean)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity' not found
-```
-
-```r
 str(activity_interval)
 ```
 
 ```
-## Error in str(activity_interval): object 'activity_interval' not found
+## 'data.frame':	288 obs. of  2 variables:
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
 ```
 
 Plotting steps versus the 5-minute interval.
@@ -125,9 +100,7 @@ plot(activity_interval$interval, activity_interval$steps,
      main = "Activity Pattern", col = "blue")
 ```
 
-```
-## Error in plot(activity_interval$interval, activity_interval$steps, xlab = "Interval", : object 'activity_interval' not found
-```
+![plot of chunk plot](figure/plot-1.png) 
 
 Calculating the 5-minute interval that contains the maximum number of steps.
 
@@ -137,7 +110,7 @@ activity_interval$interval[which.max(activity_interval$steps)]
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'activity_interval' not found
+## [1] 835
 ```
 
 ### Imputing missing values
@@ -150,7 +123,7 @@ sum(!complete.cases(activity))
 ```
 
 ```
-## Error in complete.cases(activity): object 'activity' not found
+## [1] 2304
 ```
 
 Filling all the missing values in the dataset with the mean across intervals.
@@ -158,26 +131,15 @@ Filling all the missing values in the dataset with the mean across intervals.
 
 ```r
 activity_na <- activity[which(!complete.cases(activity)), ]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity' not found
-```
-
-```r
 activity_na$steps <- mean(activity_interval$steps, na.rm = TRUE)
-```
-
-```
-## Error in mean(activity_interval$steps, na.rm = TRUE): object 'activity_interval' not found
-```
-
-```r
 str(activity_na)
 ```
 
 ```
-## Error in str(activity_na): object 'activity_na' not found
+## 'data.frame':	2304 obs. of  3 variables:
+##  $ steps   : num  37.4 37.4 37.4 37.4 37.4 ...
+##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
 Creating a new dataset combining complete data an filled missing data.
@@ -185,50 +147,28 @@ Creating a new dataset combining complete data an filled missing data.
 
 ```r
 activity_comp <- activity[which(complete.cases(activity)), ]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity' not found
-```
-
-```r
 str(activity_comp)
 ```
 
 ```
-## Error in str(activity_comp): object 'activity_comp' not found
+## 'data.frame':	15264 obs. of  3 variables:
+##  $ steps   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
 ```r
 activity_fill <- rbind(activity_comp, activity_na)
-```
-
-```
-## Error in rbind(activity_comp, activity_na): object 'activity_comp' not found
-```
-
-```r
 index <- order(activity_fill$date)
-```
-
-```
-## Error in order(activity_fill$date): object 'activity_fill' not found
-```
-
-```r
 activity_fill <- activity_fill[index, ]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity_fill' not found
-```
-
-```r
 str(activity_fill)
 ```
 
 ```
-## Error in str(activity_fill): object 'activity_fill' not found
+## 'data.frame':	17568 obs. of  3 variables:
+##  $ steps   : num  37.4 37.4 37.4 37.4 37.4 ...
+##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
 ```
 
 New calculatiion of the number of steps taken per day.
@@ -236,18 +176,13 @@ New calculatiion of the number of steps taken per day.
 
 ```r
 activity_fill_date <-aggregate(steps ~ date, activity_fill, sum)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity_fill' not found
-```
-
-```r
 str(activity_fill_date)
 ```
 
 ```
-## Error in str(activity_fill_date): object 'activity_fill_date' not found
+## 'data.frame':	61 obs. of  2 variables:
+##  $ date : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ steps: num  10766 126 11352 12116 13294 ...
 ```
 
 New Histogram of the total number of steps taken each day.
@@ -258,9 +193,7 @@ hist(activity_fill_date$steps, xlab = "Steps per Day",
      main = "New Total Number of Steps", col = "blue")
 ```
 
-```
-## Error in hist(activity_fill_date$steps, xlab = "Steps per Day", main = "New Total Number of Steps", : object 'activity_fill_date' not found
-```
+![plot of chunk histogram2](figure/histogram2-1.png) 
 
 New mean and median of the total number of steps taken per day.
 
@@ -270,7 +203,7 @@ mean(activity_fill_date$steps)
 ```
 
 ```
-## Error in mean(activity_fill_date$steps): object 'activity_fill_date' not found
+## [1] 10766.19
 ```
 
 ```r
@@ -278,7 +211,7 @@ median(activity_fill_date$steps)
 ```
 
 ```
-## Error in median(activity_fill_date$steps): object 'activity_fill_date' not found
+## [1] 10766.19
 ```
 
 ### Are there differences in activity patterns between weekdays and weekends?
@@ -290,10 +223,6 @@ Adding a weekday column to the activity set.
 activity_fill$weekday <- weekdays(as.Date(activity_fill$date))
 ```
 
-```
-## Error in as.Date(activity_fill$date): object 'activity_fill' not found
-```
-
 Adding a daytype column to the activity set.
 
 
@@ -302,27 +231,19 @@ activity_fill$daytype <- ifelse(activity_fill$weekday == "Saturday" |
                                        activity_fill$weekday == "Sunday", "Weekend", "Weekday") 
 ```
 
-```
-## Error in ifelse(activity_fill$weekday == "Saturday" | activity_fill$weekday == : object 'activity_fill' not found
-```
-
 Calculating the average activity by day type (weekday or weekend).
 
 
 ```r
 activity_fill_daytype <- aggregate(steps~interval+daytype, activity_fill, mean)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'activity_fill' not found
-```
-
-```r
 str(activity_fill_daytype)
 ```
 
 ```
-## Error in str(activity_fill_daytype): object 'activity_fill_daytype' not found
+## 'data.frame':	576 obs. of  3 variables:
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  $ daytype : chr  "Weekday" "Weekday" "Weekday" "Weekday" ...
+##  $ steps   : num  7.01 5.38 5.14 5.16 5.07 ...
 ```
 
 Making a time series plot.
@@ -334,6 +255,4 @@ xyplot(steps~interval|daytype, activity_fill_daytype, layout = c(1,2),
        type = "l", main = "Activity Pattern")
 ```
 
-```
-## Error in eval(substitute(groups), data, environment(x)): object 'activity_fill_daytype' not found
-```
+![plot of chunk plot2](figure/plot2-1.png) 
