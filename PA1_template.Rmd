@@ -1,7 +1,7 @@
 ---
 title: "Reproducible Research Project 1"
 author: "_Teo Moreno_"
-date: "_19 Dec 2015_"
+date: "_10 Jan 2016_"
 output: html_document
 ---
 
@@ -137,11 +137,10 @@ activity_fill_daytype <- aggregate(steps~interval+daytype, activity_fill, mean)
 str(activity_fill_daytype)
 ```
 
-Making a time series plot.
+Creating a time series plot.
 
 ```{r plot2, fig.height=7.5}
 library(lattice)
 xyplot(steps~interval|daytype, activity_fill_daytype, layout = c(1,2),
        type = "l", main = "Activity Pattern")
 ```
-
